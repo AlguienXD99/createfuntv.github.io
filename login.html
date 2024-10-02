@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio de Sesión</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            width: 300px;
+        }
+        input {
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 1rem;
+        }
+        button {
+            padding: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        #message {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Iniciar Sesión</h1>
+    <form id="login-form">
+        <input type="text" id="username" placeholder="Nombre de usuario" required>
+        <input type="password" id="password" placeholder="Contraseña" required>
+        <button type="submit">Iniciar Sesión</button>
+    </form>
+    <p id="message" class="hidden"></p>
+    <p><a href="index.html">Volver a la página principal</a></p>
+
+    <script>
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault(); // Evita el envío del formulario
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Cargar el archivo JSON de usuarios
+            fetch('users.json')
+                .then(response => response.json())
+                .then(users => {
+                    // Verificar si las credenciales coinciden
+                    const user = users.find(user => user.username === username && user.password === password);
+                    if (user) {
+                        // Almacenar las credenciales en Local Storage
+                        localStorage.setItem('username', username);
+                        localStorage.setItem('password', password); // Es preferible no almacenar contraseñas en texto plano
+                        alert('Inicio de sesión exitoso');
+                        window.location.href = 'index.html'; // Redirigir a la página principal
+                    } else {
+                        document.getElementById('message').textContent = 'Credenciales incorrectas. Inténtalo de nuevo.';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error al cargar el archivo JSON:', error);
+                });
+        });
+    </script>
+</body>
+</html>
