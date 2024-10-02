@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TV Online</title>
+    <style>
+        .profile-pic {
+            width: 100px;
+            height: 100px;
+            background-color: lightgray;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            color: white;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div id="profile-section">
+            <!-- Aquí se mostrará la foto de perfil del usuario -->
+            <div id="profile-pic" class="profile-pic hidden"></div>
+        </div>
+        <div id="auth-actions">
+            <button id="login-btn" class="hidden">Iniciar Sesión</button>
+            <button id="register-btn" class="hidden">Registrarse</button>
+            <p id="message" class="hidden">Debe registrarse o iniciar sesión para acceder a más funcionalidades</p>
+        </div>
+    </header>
+
+    <main>
+        <div id="channels-section">
+            <h2>Canales Disponibles</h2>
+            <!-- Aquí se mostrarán los canales -->
+            <div id="channels">
+                <!-- Ejemplo de un canal -->
+                <div id="channel1">
+                    <h3>Canal 1</h3>
+                    <button id="join-btn" class="hidden">Unirse al equipo</button>
+                </div>
+                <div id="channel2">
+                    <h3>Canal 2</h3>
+                    <button id="join-btn2" class="hidden">Unirse al equipo</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
