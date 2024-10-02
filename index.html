@@ -18,6 +18,16 @@
         .hidden {
             display: none;
         }
+        #channels a {
+            text-decoration: none; /* Elimina el subrayado */
+            color: #000; /* Color del texto */
+            padding: 10px; /* Espaciado interno */
+            background-color: #f0f0f0; /* Fondo del enlace */
+            border-radius: 5px; /* Bordes redondeados */
+        }
+        #channels a:hover {
+            background-color: #e0e0e0; /* Color del fondo al pasar el mouse */
+        }
     </style>
 </head>
 <body>
@@ -38,19 +48,30 @@
             <h2>Canales Disponibles</h2>
             <!-- Aquí se mostrarán los canales -->
             <div id="channels">
-                <!-- Ejemplo de un canal -->
+                <!-- Ejemplo de un canal con enlaces -->
                 <div id="channel1">
-                    <h3>Canal 1</h3>
-                    <button id="join-btn" class="hidden">Unirse al equipo</button>
+                    <h3><a href="canal1.html">Canal 1</a></h3>
+                    <a href="https://forms.gle/your-google-form-url" id="join-btn" class="hidden">Unirse al equipo</a>
                 </div>
                 <div id="channel2">
-                    <h3>Canal 2</h3>
-                    <button id="join-btn2" class="hidden">Unirse al equipo</button>
+                    <h3><a href="canal2.html">Canal 2</a></h3>
+                    <a href="https://forms.gle/your-google-form-url" id="join-btn2" class="hidden">Unirse al equipo</a>
                 </div>
             </div>
         </div>
     </main>
 
     <script src="app.js"></script>
+
+    <script>
+        // Redireccionar a la página de inicio de sesión o registro
+        document.getElementById('login-btn').onclick = function() {
+            window.location.href = 'login.html'; // Página de inicio de sesión
+        };
+
+        document.getElementById('register-btn').onclick = function() {
+            window.location.href = 'register.html'; // Página de registro
+        };
+    </script>
 </body>
 </html>
