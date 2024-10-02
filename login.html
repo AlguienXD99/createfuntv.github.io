@@ -5,95 +5,74 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar Sesión</title>
     <style>
+        /* Estilos básicos para el formulario */
         body {
             font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f4f4f4;
+            margin: 0;
         }
-        .login-container {
-            background: white;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        form {
+            display: flex;
+            flex-direction: column;
+            width: 300px;
         }
-        input[type="text"], input[type="password"] {
-            width: 100%;
+        input {
+            margin-bottom: 10px;
             padding: 10px;
-            margin: 10px 0;
             border: 1px solid #ccc;
-            border-radius: 4px;
+            border-radius: 5px;
         }
         button {
             padding: 10px;
+            background-color: #28a745;
             color: white;
-            background-color: #007bff;
             border: none;
-            border-radius: 4px;
+            border-radius: 5px;
             cursor: pointer;
-            width: 100%;
         }
         button:hover {
-            background-color: #0056b3;
-        }
-        .error-message {
-            color: red;
-            display: none;
+            background-color: #218838;
         }
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <h2>Iniciar Sesión</h2>
-        <div class="error-message" id="error-message">Error al iniciar sesión</div>
-        <form id="login-form">
-            <input type="text" id="username" placeholder="Nombre de usuario" required>
-            <input type="password" id="password" placeholder="Contraseña" required>
-            <button type="submit">Iniciar Sesión</button>
-        </form>
-    </div>
+
+    <form id="loginForm">
+        <input type="text" id="usernameInput" placeholder="Nombre de usuario" required>
+        <input type="password" id="passwordInput" placeholder="Contraseña" required>
+        <button type="button" id="loginButton">Iniciar Sesión</button>
+    </form>
 
     <script>
-        document.getElementById('login-form').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevenir el envío del formulario
+        document.getElementById('loginButton').addEventListener('click', function() {
+            const username = document.getElementById('usernameInput').value;
+            const password = document.getElementById('passwordInput').value;
 
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-
-            // URL del archivo JSON en Bitbucket
-            const jsonUrl = 'https://bitbucket.org/cballscomics/users-database/raw/c9bb68aaa2c09a4ac66b897b876eb3dfb9abdc24/users.json';
-
-            // Hacer la solicitud para obtener el archivo JSON
-            fetch(jsonUrl, {
-                method: 'GET',
-                headers: {
-                    'Authorization': 'Basic ' + btoa('USERNAME:APP_PASSWORD')
-                }
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Error al cargar el archivo JSON');
-                }
-                return response.json();
-            })
-            .then(data => {
-                // Verificar las credenciales del usuario
-                const user = data.find(u => u.username === username && u.password === password);
-                if (user) {
-                    // Guardar en local storage y redirigir
-                    localStorage.setItem('username', username);
-                    window.location.href = 'index.html'; // Redirigir a la página principal
-                } else {
-                    // Mostrar mensaje de error
-                    document.getElementById('error-message').style.display = 'block';
-                }
-            })
-            .catch(error => {
-                console.error(error);
-                document.getElementById('error-message').style.display = 'block';
-            });
+            fetch('https://bitbucket.org/cballscomics/users-database/raw/c9bb68aaa2c09a4ac66b897b876eb3dfb9abdc24/users.json') // Reemplaza con tu URL de Bitbucket
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error en la red');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const user = data.find(u => u.username === username && u.password === password);
+                    if (user) {
+                        // Guardar credenciales en localStorage
+                        localStorage.setItem('username', username);
+                        // Redirigir a la página principal
+                        window.location.href = 'index.html';
+                    } else {
+                        alert('Error al iniciar sesión. Usuario o contraseña incorrectos.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error al cargar el archivo JSON:', error);
+                    alert('Error al cargar los datos. Intenta nuevamente más tarde.');
+                });
         });
     </script>
 </body>
