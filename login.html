@@ -63,7 +63,7 @@
             const password = document.getElementById('password').value;
 
             // Cambia la URL por la de tu archivo JSON en Bitbucket
-            fetch('https://bitbucket.org/cballscomics/users-database/raw/c9bb68aaa2c09a4ac66b897b876eb3dfb9abdc24/users.json')
+            fetch('users.json')
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Error en la carga del archivo JSON');
