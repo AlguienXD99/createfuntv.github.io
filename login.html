@@ -36,42 +36,57 @@
         button:hover {
             background-color: #218838;
         }
+        #error-message {
+            color: red;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
 
-    <form id="loginForm">
-        <input type="text" id="usernameInput" placeholder="Nombre de usuario" required>
-        <input type="password" id="passwordInput" placeholder="Contraseña" required>
-        <button type="button" id="loginButton">Iniciar Sesión</button>
+    <form id="login-form">
+        <input type="text" id="username" placeholder="Nombre de usuario" required>
+        <input type="password" id="password" placeholder="Contraseña" required>
+        <button type="submit">Iniciar Sesión</button>
+        <p id="error-message"></p>
     </form>
 
     <script>
-        document.getElementById('loginButton').addEventListener('click', function() {
-            const username = document.getElementById('usernameInput').value;
-            const password = document.getElementById('passwordInput').value;
+        const loginForm = document.getElementById('login-form');
+        const errorMessage = document.getElementById('error-message');
 
-            fetch('https://bitbucket.org/cballscomics/users-database/raw/c9bb68aaa2c09a4ac66b897b876eb3dfb9abdc24/users.json') // Reemplaza con tu URL de Bitbucket
+        loginForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Evitar el envío del formulario
+
+            // Obtener los valores de usuario y contraseña
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Cambia la URL por la de tu archivo JSON en Bitbucket
+            fetch('https://bitbucket.org/tu_usuario/tu_repositorio/raw/master/path/to/your/users.json')
                 .then(response => {
                     if (!response.ok) {
-                        throw new Error('Error en la red');
+                        throw new Error('Error en la carga del archivo JSON');
                     }
                     return response.json();
                 })
                 .then(data => {
-                    const user = data.find(u => u.username === username && u.password === password);
+                    console.log('Datos cargados:', data); // Para depuración
+                    // Verificar si las credenciales son correctas
+                    const user = data.find(user => user.username === username && user.password === password);
                     if (user) {
-                        // Guardar credenciales en localStorage
+                        // Si el usuario existe, guardar la información en Local Storage
                         localStorage.setItem('username', username);
                         // Redirigir a la página principal
                         window.location.href = 'index.html';
                     } else {
-                        alert('Error al iniciar sesión. Usuario o contraseña incorrectos.');
+                        // Si las credenciales no son correctas
+                        errorMessage.textContent = 'Nombre de usuario o contraseña incorrectos. Inténtalo de nuevo.';
                     }
                 })
                 .catch(error => {
-                    console.error('Error al cargar el archivo JSON:', error);
-                    alert('Error al cargar los datos. Intenta nuevamente más tarde.');
+                    console.error('Error:', error); // Mostrar error en consola
+                    errorMessage.textContent = 'Error al iniciar sesión. Por favor, inténtalo más tarde.';
                 });
         });
     </script>
